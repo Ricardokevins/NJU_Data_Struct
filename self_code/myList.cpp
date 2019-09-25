@@ -20,6 +20,8 @@ public:
 	bool reverse();
 	bool sort_list();
 	bool sort_list_pro();
+    bool divide_list(int x);
+    Node* merge_list(Node *a,Node*b);
 };
 Node::Node() {
 	val = 0;
@@ -132,6 +134,137 @@ bool myList::sort_list() {
 		temp = temp->next;
 	}
 	return true;
+}
+
+bool myList::divide_list(int x)
+{
+        Node *cur=head->next;
+        Node *shead=NULL;
+        Node*bhead=NULL;
+        Node *stail=NULL;
+        Node*btail=NULL;
+        if(head->next==NULL)
+            return head;
+        if(head->next->next==NULL)
+            return head;
+        if(head->next->val<x)
+        {
+            cout<<"find small head"<<endl;
+            shead=head->next;
+            stail=head->next;     
+        }
+        else
+        {
+            cout<<"find big head"<<endl;
+            bhead=head->next;
+            btail=head->next;
+        }
+        cur=head->next->next;
+        while(cur!=NULL)
+        {
+            cout<<cur->val<<endl;
+            if(cur->val<x)
+            {
+                if(shead==NULL)
+                {
+                    cout<<"append small head"<<endl;
+                    shead=cur;
+                    stail=cur;
+                }
+                else
+                {
+                    cout<<"append small tail"<<endl;
+                    stail->next=cur;
+                    stail=stail->next;
+                }
+            }
+            else
+            {
+                if(bhead==NULL)
+                {
+                    cout<<"append big head"<<endl;
+                    bhead=cur;
+                    btail=cur;
+                }
+                else
+                {
+                    cout<<"append big tail"<<endl;
+                    btail->next=cur;
+                    btail=btail->next;
+                }
+            }
+            cur=cur->next;
+        }
+        if(shead==NULL)
+        {
+            btail->next=NULL;
+            head->next=bhead;
+            return true;
+        }
+        if(bhead==NULL)
+        {
+            stail->next=NULL;
+            head->next= shead;
+            return true;
+        }
+        stail->next=bhead;
+        btail->next=NULL;
+        cout<<"ex over"<<endl;
+        head->next= shead;
+        return true;
+}
+
+Node *myList::merge_list(Node *l1,Node*l2)
+{
+        Node *res;
+        Node *temp;
+        if(l2==NULL)
+            return l1;
+        if(l1==NULL)
+            return l2;
+        if(l1->val<l2->val)
+        {
+            cout<<"initial l1 bigger"<<l1->val;
+            res=l1;
+            l1=l1->next;
+            temp=res;
+        }
+        else
+        {
+            cout<<"initial l2 bigger"<<l2->val;
+            res=l2;
+            l2=l2->next;
+            temp=res;
+        }
+        while(l1!=NULL&&l2!=NULL)
+        {
+            if(l1->val<l2->val)
+            {
+                cout<<" l1 bigger"<<l1->val;
+                temp->next=l1;
+                l1=l1->next;
+                temp=temp->next;
+            }
+            else
+            {
+                cout<<" l2 bigger"<<l2->val;
+                temp->next=l2;
+                l2=l2->next;
+                
+                temp=temp->next;
+            }
+        }
+        if(l1==NULL)
+        {
+            temp->next=l2;
+            return res;
+        }
+        if(l2==NULL)
+        {
+            temp->next=l1;
+            return res;
+        }
+        return res;
 }
 //bool mysort1(vector<int>& a);
 //bool mysort2(vector<int>& a);
