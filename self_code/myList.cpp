@@ -20,8 +20,8 @@ public:
 	bool reverse();
 	bool sort_list();
 	bool sort_list_pro();
-    bool divide_list(int x);
-    Node* merge_list(Node *a,Node*b);
+    	bool divide_list(int x);
+    	Node* merge_list(Node *a,Node*b);
 };
 Node::Node() {
 	val = 0;
