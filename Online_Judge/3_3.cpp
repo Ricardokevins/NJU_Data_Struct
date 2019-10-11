@@ -61,3 +61,60 @@ int main()
     Time:620 ms
     Memory:1544 kb
 ****************************************************************/
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int temp(0);
+    vector<int>data;
+    cin>>temp;
+    for (int i(0); i < temp; i++)
+    {
+        int day(0);
+        cin >> day;
+        data.push_back(day);
+    }
+    int n=data.size();
+    vector<int>pre_sum(n+1,0);
+    for(int i(0);i<n;i++)
+    {
+        if(data[i]>8)
+        {
+            pre_sum[i+1]=pre_sum[i]+1;
+        }
+        else
+        {
+            pre_sum[i+1]=pre_sum[i]-1;
+        }
+    }
+    vector<int>mystack;
+    int length=0;
+    for(int i(0);i<n+1;i++)
+    {
+        if(mystack.size()==0||pre_sum[mystack[mystack.size()-1]]>pre_sum[i])
+        {
+            mystack.push_back(i);
+        }
+    }
+    int pos=n;
+    while(pos>length)
+    {
+        while(mystack.size()!=0&&pre_sum[mystack[mystack.size()-1]]<pre_sum[pos])
+        {
+            length=length>(pos-mystack[mystack.size()-1])?length:pos-mystack[mystack.size()-1];
+            mystack.pop_back();
+        }
+        pos--;
+    }
+    cout<<length;
+    return length;
+}
+/**************************************************************
+    Problem: 1174
+    User: 181860077
+    Language: C++
+    Result: 正确
+    Time:120 ms
+    Memory:2452 kb
+****************************************************************/
