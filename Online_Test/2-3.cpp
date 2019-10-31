@@ -28,6 +28,56 @@
 
 [提交][状态]
 */
+//方案1，递归，代码超时
+#include<iostream>
+#include<vector>
+using namespace std;
+vector<vector<int>>mydata;
+int min(-1);
+int nums(0);
+int visit(int pos1, int pos2)
+{
+	if (pos1 == nums - 1&&pos2 == nums-1)
+	{
+		return mydata[pos1][pos2];
+	}
+	if (pos1 == nums - 1)
+	{
+		return visit(pos1, pos2 + 1) + mydata[pos1][pos2];
+	}
+	if (pos2 == nums - 1)
+	{
+		return visit(pos1+1, pos2) + mydata[pos1][pos2];
+	}
+	int a1 = visit(pos1 + 1, pos2);
+	int a2 = visit(pos1, pos2 + 1);
+	return a1 > a2 ? a2 + mydata[pos1][pos2] : a1 + mydata[pos1][pos2];
+}
+
+int main()
+{
+	
+	
+	cin >> nums;
+	for (int i(0); i < nums; i++)
+	{
+		vector<int>temp;
+		for (int j(0); j < nums; j++)
+		{
+			int hh(0);
+			cin >> hh;
+			temp.push_back(hh);
+		}
+		mydata.push_back(temp);
+	}
+	cout << visit(0, 0);
+	return 0;
+
+}
+
+
+
+//方案2，双层循环，极大优化
 #include<iostream>
 #include<vector>
 using namespace std;
