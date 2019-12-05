@@ -69,12 +69,7 @@ int main()
         mydata[i] = mydata[pos];
         mydata[pos] = temp1;
     }
-    /*
-    for (int i(0); i < mydata.size(); i++)
-    {
-        cout << mydata[i].height << "   " << mydata[i].weight << endl;
-    }
-    */
+
  
     if (mydata.size() <= 1)
         return mydata.size();
