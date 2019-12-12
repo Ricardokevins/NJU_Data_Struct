@@ -103,7 +103,7 @@ void print_graph()
 			}
 			else
 			{
-				cout << setw(10) << "∞" << " ";
+				cout << setw(10) << "?" << " ";
 			}
 		}
 		cout << endl;
