@@ -1,10 +1,12 @@
 #include<iostream>
 using namespace std;
 #define max_size 10000
+
 int my_data[max_size]={0};
 int pre_sum[max_size]={0};
 int after_data[max_size]={0};
 int has_num[max_size]={0};
+int has_num_sum[max_size]={0};
 
 int data_size,ask_size;
 
@@ -96,7 +98,9 @@ int unique_data()
 			pos++;
 		}
 	}
-	data_size=pos;//here update the data_size Attention!!!!!
+	has_num[pos]=count;
+	after_data[pos]=cur_target;
+	data_size=pos+1;//here update the data_size Attention!!!!!
 	return 1;
 }
 
@@ -114,23 +118,10 @@ int binarySearch1(int a[], int n , int target)//循环实现
 	   else if(target < a[middle])
 		   high = middle;
 	}
-	return -1;
+	return middle;
 };
 
-int find_pos(int i,int left,int right)
-{
-    if(left==right)
-    {
-        return left;
-    }
-    else{
-        int mid=(left+right)/2;
-        if(mid==left)
-        {
 
-        }
-    }
-}
 
 int module1()
 {
@@ -140,37 +131,59 @@ int module1()
     {
         cin>>my_data[i];
     }
+	
     mergeSort(my_data, data_size);//sort test pass 
-	/*
-	for(int i(0);i<data_size;i++)
-	{
-		cout<<my_data[i]<<" ";
-	}
-	*/
-	unique_data();
-	for(int i(0);i<data_size;i++)
-	{
-		cout<<after_data[i]<<" ";
+    for(int i(0);i<data_size;i++)
+    {
+    	cout<<my_data[i]<<" ";
 	}
 	cout<<endl;
-	for(int i(0);i<data_size;i++)
-	{
-		cout<<has_num[i]<<" ";
-	}
-	/*
-    pre_sum[0]=my_data[0];
+	unique_data();//unique data test pass
+	
+    pre_sum[0]=after_data[0]*has_num[0];
     for(int i(1);i<data_size;i++)
     {
-        pre_sum[i]=pre_sum[i-1]+my_data[i];
+        pre_sum[i]=pre_sum[i-1]+after_data[i]*has_num[i];
     }
-
+	has_num_sum[0]=has_num[0];
+	for(int i(1);i<data_size;i++)
+	{
+		has_num_sum[i]=has_num_sum[i-1]+has_num[i];
+	}
     for(int i(0);i<ask_size;i++)
     {
         int l,r;
         cin>>l>>r;
+		int left_pos;
+		int right_pos;
+		left_pos=binarySearch1(after_data,data_size,l);
+		right_pos=binarySearch1(after_data,data_size,r);
+
+		if(after_data[left_pos]<l)
+		{
+			left_pos++;
+		}
+		if(after_data[right_pos]>r)
+		{
+			right_pos--;
+		}
+		int ask_result(0);
+		if(right_pos<0&&left_pos>=data_size&&left_pos>right_pos)
+		{
+			cout<<ask_result<<endl;
+			continue;
+		}
+
+		int data_number=has_num_sum[right_pos]-has_num_sum[left_pos]+has_num[left_pos];
+		int sum_total=pre_sum[right_pos]-pre_sum[left_pos]+after_data[left_pos]*has_num[left_pos];
+		ask_result=sum_total/data_number;
+		cout<<ask_result<<endl;
+		
+		
+
 
     }
-	*/
+	
 
 }
 
@@ -182,25 +195,3 @@ int main()
 }
 
 
-
-//special testcase for unique_data
-/*
-10 3                   
-
-100000
-40000
-30000
-60000
-60000
-60000
-200000
-100000
-30000
-30000
-
-1000 40000
-
-30000 40000
-
-30000 100000
-*/
