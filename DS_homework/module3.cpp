@@ -95,6 +95,47 @@ int insert_data(int p)
 	return 0;
 }
 
+//Todo : use list and liner visit to fix the bug follows:
+//when some number appear more than one time
+
+int insert_data_fixed(int p)
+{
+	int pos(0);
+	for(;pos<k;pos++)
+	{
+		if(p<result[pos])
+		{
+			break;
+		}
+	}
+	if(pos==0)
+	{
+		result[0]=p;
+		return 0;
+	}
+	else
+	{
+		if(pos==k)
+		{
+			for(int i(0);i<k-1;i++)
+			{
+				result[i]=result[i+1];
+				result[k-1]=p;
+				return 0;
+			}
+		}
+		else
+		{
+			for(int i(0);i<pos;i++)
+			{
+				result[i]=result[i+1];
+			}
+			result[pos]=p;
+			return 0;
+		}
+	}
+}
+
 int module3()
 {
 	cin >> number >> k;
@@ -112,7 +153,8 @@ int module3()
 			int temp_data = change_num(a);
 			if (temp_data > result[0])
 			{
-				insert_data(change_num(a));
+				//insert_data(change_num(a));
+				insert_data_fixed(temp_data); 
 			}
 			count++;
 		}

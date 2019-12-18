@@ -3,6 +3,9 @@ using namespace std;
 #define max_size 10000
 int my_data[max_size]={0};
 int pre_sum[max_size]={0};
+int after_data[max_size]={0};
+int has_num[max_size]={0};
+
 int data_size,ask_size;
 
 /*
@@ -14,7 +17,7 @@ int data_size,ask_size;
 */
 void merge(int *a, int p, int q, int r) {
 	int *tmp = new int[r - p + 1];
-	if (tmp==nullptr) return;
+	if (tmp==NULL) return;
  
 	int k = 0, i = p, j = q+1;
 	while (i <= q && j <= r) {
@@ -75,6 +78,28 @@ void mergeSort(int *a, int n) {
 	merge_sort_c(a, 0, n - 1);
 }
 
+int unique_data()
+{
+	int pos(0);
+	int count(1);
+	int cur_target=my_data[0];
+	for(int i(1);i<data_size;i++)
+	{
+		if(my_data[i]==cur_target)
+			count++;
+		else
+		{
+			has_num[pos]=count;
+			after_data[pos]=cur_target;
+			count=1;
+			cur_target=my_data[i];
+			pos++;
+		}
+	}
+	data_size=pos;//here update the data_size Attention!!!!!
+	return 1;
+}
+
 
 int binarySearch1(int a[], int n , int target)//循环实现
 {
@@ -115,7 +140,24 @@ int module1()
     {
         cin>>my_data[i];
     }
-    mergeSort(my_data, data_size);
+    mergeSort(my_data, data_size);//sort test pass 
+	/*
+	for(int i(0);i<data_size;i++)
+	{
+		cout<<my_data[i]<<" ";
+	}
+	*/
+	unique_data();
+	for(int i(0);i<data_size;i++)
+	{
+		cout<<after_data[i]<<" ";
+	}
+	cout<<endl;
+	for(int i(0);i<data_size;i++)
+	{
+		cout<<has_num[i]<<" ";
+	}
+	/*
     pre_sum[0]=my_data[0];
     for(int i(1);i<data_size;i++)
     {
@@ -128,4 +170,37 @@ int module1()
         cin>>l>>r;
 
     }
+	*/
+
 }
+
+int main()
+{
+	//test
+	module1();
+	return 0;
+}
+
+
+
+//special testcase for unique_data
+/*
+10 3                   
+
+100000
+40000
+30000
+60000
+60000
+60000
+200000
+100000
+30000
+30000
+
+1000 40000
+
+30000 40000
+
+30000 100000
+*/
