@@ -117,8 +117,6 @@ int main() {
         Edge[countNow].next = root[u];
         Edge[countNow].len = 0;
         root[u] = countNow++;
- 
- 
     }
     for (int i = 1; i <= n; i++) {
         InDegree[n+1]++;
