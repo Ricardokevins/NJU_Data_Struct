@@ -1,79 +1,84 @@
 #include<iostream>
 using namespace std;
-#define maxsize 10000
-#define my_max 1000000000
-#define my_min -1
-
-int hash_map(int num, int len, int min, int max)
-{
-	return (int)((num - min) * len / (max - min));
-}
-
-int module5()
-{
-	int number;
-	cin >> number;
-	int max[maxsize] = { 0 };
-	int min[maxsize] = { 0 };
-	int has_num[maxsize] = { 0 };
-	int mydata[maxsize] = { 0 };
-	for (int i(0); i < number; i++)
-	{
-		cin >> mydata[i];
-	}
-	int pos(0);
-	int max_data = my_min;
-	int min_data = my_max;
-	for (int i(0); i < number; i++)
-	{
-		if (mydata[i] < min_data)
-		{
-			min_data = mydata[i];
-		}
-		if (mydata[i] > max_data)
-		{
-			max_data = mydata[i];
-		}
-	}
-	//cout << max_data << "   " << min_data << endl;
-	for (int i(0); i < number; i++)
-	{
-		pos = hash_map(mydata[i], number, min_data, max_data);
-		if (has_num[pos])
-		{
-			if (mydata[i] < min[pos])
-			{
-				min[pos] = mydata[i];
-			}
-			if (mydata[i] > max[pos])
-			{
-				max[pos] = mydata[i];
-			}
-		}
-		else
-		{
-			min[pos] = mydata[i];
-			max[pos] = mydata[i];
-			has_num[pos] = 1;
-		}
-	}
-	int res = 0;
-	int last_max = max[0];
-	for (int i(1); i <= number; i++)
-	{
-		//last_max = max[i - 1];
-		if (has_num[i])
-		{
-			res = res > min[i] - last_max ? res : min[i] - last_max;
-			last_max = max[i];
-		}
-		
-	}
-	return res;
-}
-
+//pass OJ test
 int main()
 {
-	cout <<"resutl: "<< module5();
-	return 0;
+    int num;
+    cin>>num;
+    int my_max;
+    int my_min;
+    int test_data[num];
+    for(int i(0);i<num;i++)
+    {
+        cin>>test_data[i];
+    }
+    my_max=test_data[0];
+    my_min=test_data[0];
+    for(int i(1);i<num;i++)
+    {
+        if(test_data[i]>my_max)
+        {
+            my_max=test_data[i];
+        }
+        if(test_data[i]<my_min)
+        {
+            my_min=test_data[i];
+        }
+    }
+    int bar,pos;
+    double temp_bar=double((my_max-my_min)*1.0/(num-1));
+    if(temp_bar>1)
+    {
+        bar=temp_bar+1;
+    }
+    else
+    {
+        bar=temp_bar;
+    }
+    int bucket[num];
+    int bucket1[num];
+    
+    for(int i(0);i<num;i++)
+    {
+        bucket[i]=0;
+        bucket1[i]=0;
+       
+    }
+    for(int i(0);i<num;i++)
+    {
+        pos=(test_data[i]-my_min)/bar;
+        if(bucket[pos]==0)
+        {
+            bucket[pos]=bucket1[pos]=test_data[i];
+        }
+        else{
+            if(test_data[i]<bucket[pos])
+            {
+                bucket[pos]=test_data[i];
+            }
+            if(test_data[i]>bucket1[pos])
+            {
+                bucket1[pos]=test_data[i];
+            }
+        }
+    }
+    int dif,max_dif=0;
+    int temp=0;
+    for(int i(1);i<num;i++)
+    {
+        if(bucket[i]==0)
+        {
+            temp++;
+        }
+        else{
+            dif=bucket[i]-bucket1[i-1-temp];
+            if(max_dif<dif)
+            {
+                max_dif=dif;
+            }
+            temp=0;
+        }
+    }
+    cout<<max_dif<<endl;
+    return 0;
 }
