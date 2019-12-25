@@ -10,58 +10,8 @@ int has_num_sum[max_size] = { 0 };
 long long dir_sum = 0;
 int data_size, ask_size;
 int pre_size;
+
  
-void merge(int* a, int p, int q, int r) {
-    int* tmp = new int[r - p + 1];
-    if (tmp == NULL) return;
- 
-    int k = 0, i = p, j = q + 1;
-    while (i <= q && j <= r) {
-        if (a[i] <= a[j]) {
-            tmp[k++] = a[i++];
-        }
-        else {
-            tmp[k++] = a[j++];
-        }
-    }
- 
- 
-    if (i <= q) {
-        while (i <= q) {
-            tmp[k++] = a[i++];
-        }
-    }
-    else {
-        while (j <= r) {
-            tmp[k++] = a[j++];
-        }
-    }
- 
-    for (int c = 0; c < r - p + 1; c++) {
-        a[p + c] = tmp[c];
-    }
- 
-    delete[] tmp;
-}
- 
- 
-void merge_sort_c(int* a, int p, int r) {
-    if (p >= r) return;
- 
-    int q = (p + r) / 2;
- 
-    merge_sort_c(a, p, q);
-    merge_sort_c(a, q + 1, r);
-    merge(a, p, q, r);
-}
- 
- 
-void mergeSort(int* a, int n) {
-    if (n <= 1)
-        return;
- 
-    merge_sort_c(a, 0, n - 1);
-}
  
 int unique_data() {
     int pos(0);
@@ -104,24 +54,7 @@ int binarySearch1(int a[], int n, int target) {
     return middle;
 };
  
-void insertionSort(int array[],int size) {
-    size_t i = 1;
-    while (i < size) {
-        size_t j = i - 1;
-        int itermToInsert = array[i];
-        while (j >= 0) {
-            if (array[j] >= itermToInsert) {
-                array[j + 1] = array[j];
-                j--;
-            }
-            else {
-                break;
-            }
-        }
-        array[j + 1] = itermToInsert;
-        i++;
-    }
-}
+
  
 void shellSort(int array[],int n) {
     for (int gap = n / 2; gap >= 1; gap /= 2) {
@@ -220,19 +153,9 @@ int module1() {
             printf("%lld\n", data_number);
         else {
             ask_result = sum_total / data_number;
-             
-            if (ask_result == 1074387410)
-            {
-                printf("%lld %lld \n",hh, sum_total);
-                printf("%d\n", after_data[data_size - 1]);
-                ask_result = sum_total / data_number;
-                printf("%lld\n", dir_sum);
- 
-            }
-            else
-            {
+           
                 printf("%lld\n", ask_result);
-            }
+            
         }
  
  
