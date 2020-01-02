@@ -4,6 +4,8 @@ using namespace std;
 int result[max_size] = { 0 };
 int number, k;
  //pass OJ test
+
+ //这里是我自己写的一个 atoi的函数，用了很多次了，基本没啥问题，支持处理负数
 int change_num(string a)
 {
     int num(0);
@@ -25,7 +27,8 @@ int change_num(string a)
         num = -num;
     return num;
 }
- 
+ //打印结果，也没得说，由于初始化为0了，而且只要这个数组满了之后就不会有空，所以判断
+ //有没有满（输出到哪里结束）用的就是不等于0
 int print_result()
 {
     //cout << "result: ";
@@ -46,59 +49,8 @@ int print_result()
         cout << endl;
     return 0;
 }
- 
-int find_pos(int left, int right, int mydata)
-{
-    if (left == right)
-    {
-        return left;
-    }
-    int mid = (left + right) / 2;
-    if (left == mid)
-    {
-        if (result[right] > mydata)
-        {
-            return left;
-        }
-        else
-        {
-            return right;
-        }
-    }
-    if (result[mid] > mydata)
-    {
-        return find_pos(left, mid, mydata);
-    }
-    else
-    {
-        return find_pos(mid, right, mydata);
-    }
-}
- 
-int insert_data(int p)
-{
- 
-    int pos = find_pos(0, k - 1, p);
-    //cout << "POS is here" << pos << endl;
-    for (int i(0); i < pos && i < k - 1; i++)
-    {
-        if (result[i + 1] != 0)
-        {
-            result[i] = result[i + 1];
-        }
-    }
-    result[pos] = p;
-    //cout << "Let us see result: ";
-    //for (int i(0); i < k; i++)
-    //{
-    //  cout << result[i] << " ";
-    //}
-    //cout << endl;
-    return 0;
-}
- 
-//Todo : use list and liner visit to fix the bug follows:
-//when some number appear more than one time
+
+//写了一个新的函数进行插入数据，修复了各种的问题
  
 int insert_data_fixed(int p)
 {
@@ -173,7 +125,7 @@ int module3()
         }
     }
     string a;
-     
+     //OJ特色：末尾多了一个check，那就再输出一次吧
     while (cin >> a)
     {
         print_result();
